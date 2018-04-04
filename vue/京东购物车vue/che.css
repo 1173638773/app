@@ -1,0 +1,43 @@
+#box{
+	
+	margin:0 auto;
+	width: 700px;
+
+	margin-top: 100px;
+	flex-direction: column;
+}
+#box img{
+	width: 480px;
+}
+#a1{
+	background-color: #666;
+	display:inline-flex;
+	width: 100%;
+
+}
+.a2{
+	display: inline-flex;
+}
+.num{
+	width: 30px;
+	text-align: center;
+}
+
+#jiesuan{
+	left: 0;
+	bottom: 0;
+	height: 50px;
+	position:fixed;
+	width: 100%;
+	background-color: rgba(2,10,10,0.3);
+	justify-content:flex-end;
+}
+#jiesuan *{
+	line-height: 100px
+	font-size:50px;
+	float: right;
+}
+#zongjia{
+	color: red;
+	width: 100px;
+}

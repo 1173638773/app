@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" href="index.css">
+  <script src="vue.min.js"></script>
+</head>
+
+<body>
+  <div class="page-top">
+    <div class="page-content">
+      <h2>任务计划列表</h2>
+    </div>
+  </div>
+
+  <div class="main" id="app">
+
+    <h3 class="big-title">添加任务：</h3>
+     <!-- v-model 表单输入双向绑定 -->
+    <input placeholder="例如：吃饭睡觉打豆豆；    提示：+回车即可添加任务" class="task-input" type="text" v-on:keyup="add" v-model="addIn"/>
+    <ul class="task-count">
+      <li>2个任务未完成</li>
+      <li class="action">
+        <a class="active" href="#">所有任务</a>
+        <a href="#">未完成的任务</a>
+        <a href="#">完成的任务</a>
+      </li>
+    </ul>
+    <h3 class="big-title">任务列表：</h3>
+
+    <div class="tasks">
+      <span class="no-task-tip">还没有添加任何任务</span>
+      <ul class="todo-list">
+      <!-- v-bind可省略 -->
+        <li class="todo" v-bind:class="{completed:item.Active,editing:editingItem==item}"  v-for="item in list" v-on:dblclick="edit(item)">
+          <div class="view">
+            <input class="toggle" type="checkbox" v-model="item.Active"/>
+            <label>{{item.title}}</label>
+            <button class="destroy" v-on:click="del(item)"></button>
+          </div>
+          <!-- @加监听事件 相当于v-on:加监听事件 -->
+          <input class="edit" type="text" v-model="item.title" v-focus ="editingItem==item"/ v-on:keyup.enter="editList" @blur="editList" v-on:keyup.esc="recover(item)">
+        </li>
+
+       <!--  <li class="todo completed">
+          <div class="view">
+            <input class="toggle" type="checkbox" checked="cheecked" />
+            <label>vue学习计划1</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" type="text" />
+        </li> -->
+
+      <!--   <li class="todo editing">
+          <div class="view">
+            <input class="toggle" type="checkbox" />
+            <label>vue学习计划2</label>
+            <button class="destroy"></button>
+          </div>
+          <input class="edit" type="text" />
+        </li> -->
+      </ul>
+    </div>
+  </div>
+
+  <script>
+      var app= new Vue({
+        //只对id为app的元素内生效
+        el:"#app",
+        data:{
+          list:[
+
+          {title:"吃饭",},
+          {title:"睡觉",}],
+          addIn:"",//输入框中的值
+          editingItem:"",//记录正在编辑的那一项
+          beforeEdit:""//记录编辑之前的值
+
+
+        },
+        //定义绑定事件的方法(函数)
+        methods:{
+          add:function (ev) {
+            if(ev.keyCode == 13){
+
+              if(this.addIn.length!=""){
+                //this的作用域还是data
+                //向list中添加一个对象
+                //data中的addIn与表单的值双向绑定
+                this.list.push({title:this.addIn});
+                this.addIn="";
+              }else{}
+            }
+
+          },
+          del:function(item){
+            //获取当前item的值 删除当前位置的值
+            var index = this.list.indexOf(item);
+            this.list.splice(index,1);
+          },
+          //双击添加编辑
+          edit:function(item){
+            this.editingItem = item;
+            this.beforeEdit = item.title;
+
+          },
+          //编辑列表
+          editList:function(){
+            this.editingItem = "";
+          },
+          //esc键返回编辑前的值
+          recover:function(item){
+             console.log(item);
+            console.log(this.beforeEdit);
+            item.title=this.beforeEdit;
+             this.editingItem = "";
+
+          }
+
+        },
+
+        //注册一个局部的自定义指令
+        directives:{
+
+          //自定义的指令名
+          focus:{
+              update(el,binding){
+
+                //查看两个属性的值
+                // console.log(el)
+                // console.log(binding)
+                if(binding.value){
+                  el.focus();
+                }
+              }
+          }
+        }
+
+      })
+  </script>
+</body>
+
+</html>

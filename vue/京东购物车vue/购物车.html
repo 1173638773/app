@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<link rel="stylesheet" type="text/css" href="che.css">
+</head>
+
+<body>
+<div id="box">
+<div>全部商品</div>
+
+<div id="a1"><input type="checkbox" id="quanxuan" v-model="allchecked" v-on:click="chooseAll">
+全选</div>
+<!-- 获取店铺在数组里的下标 -->
+<div class="shop" v-for="(item,index) in  goodslist">
+
+<h4><input type="checkbox" id="qita" v-model="item.checked" v-on:click="ashop(index)">{{item.name}}</h4>
+
+<div class="a2" v-for="good in item.list">
+<input type="checkbox" class="a" v-model="good.checked">
+<img v-bind:src="good.img"><span>
+<input type="button" class="btnDel" value="-">
+<input type="text" class="num" v-bind:value="good.num">
+<input type="button" class="btnAdd" v-on:click="addNum" value="+">
+<span>单价：￥</span>
+<span class="jiage">{{good.price}}</span><hr>
+<span >小计:￥</span><span class="xiaoji" v-text="good.price*good.num"></span>
+ </span>
+</div>
+
+<!-- <div class="a2"><input type="checkbox" class="a" ><img src="2.png"><span>
+<input type="button" class="btnDel" value="-">
+<input type="text" class="num" value="1">
+<input type="button" class="btnAdd" value="+">
+<span>单价：￥</span>
+<span class="jiage">80</span><hr>
+<span >小计:￥</span><span class="xiaoji">80</span>
+ </span>
+</div> -->
+</div><!-- 第一个商店 -->
+
+<!-- <div class="shop"><h4><input type="checkbox" id="ziyin">京东自营</h4>
+
+<div class="a2"><input type="checkbox" class="a" ><img src="3.png"><span>
+<input type="button" class="btnDel" value="-">
+<input type="text" class="num" value="1">
+<input type="button" class="btnAdd" value="+">
+<span>单价：￥</span>
+<span class="jiage">3000</span><hr>
+<span >小计:￥</span><span class="xiaoji">3000</span>
+ </span>
+</div>
+<div class="a2"><input type="checkbox" class="a" ><img src="4.png"><span>
+<input type="button" class="btnDel" value="-">
+<input type="text" class="num" value="1">
+<input type="button" class="btnAdd" value="+">
+<span>单价：￥</span>
+<span class="jiage">30</span><hr>
+<span >小计:￥</span><span class="xiaoji">30</span>
+ </span>
+</div>
+<div class="a2"><input type="checkbox" class="a" ><img src="5.png"><span>
+<input type="button" class="btnDel" value="-">
+<input type="text" class="num" value="1">
+<input type="button" class="btnAdd" value="+">
+<span>单价：￥</span>
+<span class="jiage">3700</span><hr>
+<span >小计:￥</span><span class="xiaoji">3700</span>
+ </span>
+</div>
+
+</div> --><!-- 第二个商店 -->
+
+<div id="jiesuan"><input type="button" id="queren" value="确认"><span id="zongjia">0</span><span>￥</span><span>总价：</span></div>
+</div><!-- box标签 -->
+
+<script src="http://apps.bdimg.com/libs/jquery/1.9.0/jquery.js"></script>
+<script src="vue.min.js"></script>
+<script type="text/javascript">
+
+ var shopping = new Vue({
+ 	el:"#box",
+ 	data:{
+ 		allchecked:false,
+
+        goodslist:[
+            //店铺
+            {
+                name:"其他",
+                checked:false,
+                //商品
+                list:[
+                {
+                name:"",
+                price:"2000",
+                num:10,
+                img:"1.png",
+                checked:false,
+                },
+                  {
+                name:"",
+                price:"80",
+                num:1,
+                img:"2.png",
+                checked:false,
+                },
+
+                ]
+            },
+              //店铺
+            {
+                name:"京东自营",
+                checked:false,
+                //商品
+                list:[
+                {
+                name:"",
+                price:"3000",
+                num:1,
+                img:"3.png",
+                checked:false,
+                },
+                  {
+                name:"",
+                price:"30",
+                num:1,
+                img:"4.png",
+                checked:false,
+                },
+                   {
+                name:"",
+                price:"3700",
+                num:1,
+                img:"5.png",
+                checked:false,
+                },
+
+
+                ]
+            },
+
+        ]
+ 	},
+ 	methods:{
+        //全选事件
+        chooseAll:function(){
+            var flag = true;
+            if(this.allchecked){
+                flag= false;
+            }
+            for(var i=0;i<this.goodslist.length;i++){
+
+                this.goodslist[i].checked=flag;
+                for(var n=0;n<this.goodslist[i].list.length;n++){
+                    console.log(this.goodslist[i].list[n].checked);
+                        this.goodslist[i].list[n].checked=flag;
+                }
+            }
+            this.allchecked=!this.allchecked;
+        },
+        ashop:function(index){
+            //获取是哪一个商铺 循环这个商铺下的商品
+            if(this.goodslist[index].checked==false){
+                for(var i=0;i<this.goodslist[index].list.length;i++){
+                    this.goodslist[index].list[i].checked=true;
+                }
+            }
+            else{
+                for(var i=0;i<this.goodslist[index].list.length;i++){
+                    this.goodslist[index].list[i].checked=false;
+                }
+            }
+            this.goodslist[index].checked!=this.goodslist[index].checked
+
+        },
+        addNum:function(){
+            console.log(this);
+            this.good.num=this.num+1
+        }
+ 	},
+
+ })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// var allnum=$(".a").size();
+// var ziyinnum=$("#zi .a").size();
+// var ziyinchk=0;
+// var allchk=0;
+// var z=Number($("zongjia").text());
+// // var z=0;
+// $(function(){
+
+
+// 	$("#quanxuan").click(function(){
+// 		var n=0;
+// 		if($(this).is(':checked')){
+// 			$(".a").prop("checked",true);
+// 				allchk=allnum;
+// 				ziyinchk=ziyinnum;
+// 				 $(".xiaoji").each(function(){
+// 				 		n=n+Number($(this).text());
+
+// 		 		})
+// 				 z=z+n;
+// 				 $("#zongjia").text(z);
+// 				 console.log(z);
+
+// 		}else{$(".a").prop("checked",false);
+// 				allchk=0;
+// 				ziyinchk=0;
+
+// 				$(".xiaoji").each(function(){
+// 				 		z=z-Number($(this).text());
+
+// 		 		})
+// 		 		console.log(z);
+// 				 $("#zongjia").text(z);
+// 				}
+// 		chk();
+// 	})
+// 	$("#ziyin").click(function(){
+// 		var n=0;
+// 		if(this.checked){
+// 			$("#zi .a").prop("checked",true);
+// 			ziyinchk=ziyinnum;
+// 			$("#zi .a").parent().find(".xiaoji").each(function(){
+// 				 		n=n+Number($(this).text());
+// 		 		})
+// 				 z=z+n;
+// 				 $("#zongjia").text(z);
+// 				 console.log(z);
+// 		}else{$("#zi .a").prop("checked",false);
+// 				ziyinchk=0;
+// 			$("#zi .a").parent().find(".xiaoji").each(function(){
+// 				 		n=n+Number($(this).text());
+// 		 		})
+// 				 z=z-n;
+// 				 $("#zongjia").text(z);
+// 				 console.log(z);}
+// 		chk();
+
+// 	})
+// 	$(".a").click(function(){
+// 		if(this.checked){
+// 		allchk++;
+// 		// $(".a").each(function(){
+
+// 		// })
+// 	var i=Number($(this).parent().find(".xiaoji").text());
+// 		z=z+i;
+// 		$("#zongjia").text(z);
+
+// 	 	}
+// 		else {allchk--;
+// 		var i=Number($(this).parent().find(".xiaoji").text());
+// 		z=z-i;
+// 		$("#zongjia").text(z);
+// 		}
+// 		chk();
+// 		console.log(i);
+// 		console.log(z)
+// 	})
+// 	$("#zi .a").click(function(){
+// 		if(this.checked){
+// 		ziyinchk++;
+// 	}
+// 		else {ziyinchk--;
+// 		}
+// 		chk();
+
+
+// 		// console.log(allchk+"--"+ziyinchk)
+// 	})
+// 		function chk(){
+
+// 		if(allchk==allnum){
+// 			$("#quanxuan").prop("checked",true);
+// 		}else{$("#quanxuan").prop("checked",false);}
+// 		if(ziyinchk==ziyinnum){
+// 			$("#ziyin").prop("checked",true);
+// 		}else{$("#ziyin").prop("checked",false);}
+
+// 	}
+
+// 	$(".btnAdd").click(function(){
+// 		var x=Number($(this).siblings(".num").val());
+// 		x++;
+
+// 		if($(this).parent().siblings(".a").is(':checked')){
+
+// 		if ($(this).siblings(".num").val()>=0&&$(this).siblings(".num").val()%1==0&&$(this).siblings(".num").val()<=666) {
+
+// 		var n=Number($(this).siblings(".jiage").text());
+// 		var y=x*n;
+// 		$(this).siblings(".xiaoji").text(y);
+// 		$(this).siblings(".num").val(x);
+// 		z=z+n;
+// 		$("#zongjia").text(z);}
+// 		else{
+// 			$(this).siblings(".num").val(1);
+// 			var n=Number($(this).siblings(".jiage").text());
+// 			$(this).siblings(".xiaoji").text(n);
+// 			alert("输入有误，请重新输入");
+
+// 			}
+// 	}
+// 		else{
+// 			if ($(this).siblings(".num").val()>=0&&$(this).siblings(".num").val()%1==0&&$(this).siblings(".num").val()<=666) {
+
+// 		var n=Number($(this).siblings(".jiage").text());
+// 		var y=x*n;
+// 		$(this).siblings(".xiaoji").text(y);
+// 		$(this).siblings(".num").val(x);
+// 		}
+// 		else{
+// 			$(this).siblings(".num").val(1);
+// 			var n=Number($(this).siblings(".jiage").text());
+// 			$(this).siblings(".xiaoji").text(n);
+// 			alert("输入有误，请重新输入");
+// 			}
+
+// 			}
+
+// 		console.log(z);
+// 	})
+// 	$(".btnDel").click(function(){
+// 		var x=Number($(this).siblings(".num").val());
+// 		x--;
+// 		if(x<0){
+// 			$(this).siblings(".num").val(0);
+// 			var n=Number($(this).siblings(".jiage").text());
+// 			$(this).siblings(".xiaoji").text(0);
+// 			}
+
+// 		else{
+// 		if($(this).parent().siblings(".a").is(':checked')){
+
+// 		if ($(this).siblings(".num").val()>=0&&$(this).siblings(".num").val()%1==0&&$(this).siblings(".num").val()<=666) {
+
+// 		var n=Number($(this).siblings(".jiage").text());
+// 		var y=x*n;
+// 		$(this).siblings(".xiaoji").text(y);
+// 		$(this).siblings(".num").val(x);
+// 		z=z-n;
+// 		$("#zongjia").text(z);}
+// 		else{
+// 			$(this).siblings(".num").val(1);
+// 			var n=Number($(this).siblings(".jiage").text());
+// 			$(this).siblings(".xiaoji").text(n);
+// 			alert("输入有误，请重新输入");
+
+// 			}
+// 	}
+// 		else{
+// 			if ($(this).siblings(".num").val()>=0&&$(this).siblings(".num").val()%1==0&&$(this).siblings(".num").val()<=666) {
+// 		var n=Number($(this).siblings(".jiage").text());
+// 		var y=x*n;
+// 		$(this).siblings(".xiaoji").text(y);
+// 		$(this).siblings(".num").val(x);
+// 		}
+// 		else{
+// 			$(this).siblings(".num").val(1);
+// 			var n=Number($(this).siblings(".jiage").text());
+// 			$(this).siblings(".xiaoji").text(n);
+// 			alert("输入有误，请重新输入");
+// 			}
+
+// 			}
+// 		}
+// 		console.log(x);
+// 	})
+// 	$("#queren").click(function(){
+// 		alert("你的购物车里商品总价为:￥"+z+'  '+"是否立即付款");
+// 		window.location ="http://www.baidu.com/";
+// 	})
+
+
+// })
+</script>
+</body>
+</html>
